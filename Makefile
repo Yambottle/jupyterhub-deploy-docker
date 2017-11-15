@@ -54,6 +54,7 @@ notebook_image: pull singleuser/Dockerfile
 	docker build -t $(LOCAL_NOTEBOOK_IMAGE) \
 		--build-arg JUPYTERHUB_VERSION=$(JUPYTERHUB_VERSION) \
 		--build-arg DOCKER_NOTEBOOK_IMAGE=$(DOCKER_NOTEBOOK_IMAGE) \
+                --no-cache \
 		singleuser
 
 build: check-files network volumes
