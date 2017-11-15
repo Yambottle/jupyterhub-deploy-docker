@@ -5,7 +5,7 @@ USER root
 RUN apt-get update -y &&\
     apt-get install -y graphviz graphviz-dev
 RUN python3 -m pip install --no-cache jupyterhub==$JUPYTERHUB_VERSION
-RUN pip install datajoint
+RUN pip install datajoint matplotlib
 
 USER jovyan
 RUN git clone https://github.com/mesoscale-activity-map/workshop-2017 &&\
