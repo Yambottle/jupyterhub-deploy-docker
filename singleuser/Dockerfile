@@ -7,7 +7,21 @@ RUN apt-get update -y &&\
 RUN python3 -m pip install --no-cache jupyterhub==$JUPYTERHUB_VERSION
 RUN pip install datajoint matplotlib
 
+RUN mkdir -p /src \
+	&& cd /src \
+	&& git clone https://github.com/datajoint/datajoint-jupyter.git \
+	&& cd datajoint-jupyter \
+	&& pip install -r requirements.txt \
+	&& python ./setup.py install \
+	&& jupyter nbextension enable --py widgetsnbextension
+
+ADD ./pni_workshop /home/jovyan/work
+#ADD ./pni_workshop /home/jovyan/workshop
+RUN chown -R jovyan:users /home/jovyan/work
+#RUN chown -R jovyan:users /home/jovyan/workshop
+
 USER jovyan
-RUN git clone https://github.com/mesoscale-activity-map/workshop-2017 &&\
-    cp workshop-2017/* work/ &&\
-    rm -rf workshop-2017
+
+#RUN git clone https://github.com/mesoscale-activity-map/workshop-2017 &&\
+#    cp workshop-2017/* work/ &&\
+#    rm -rf workshop-2017
