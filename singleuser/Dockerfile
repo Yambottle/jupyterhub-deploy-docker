@@ -5,7 +5,7 @@ USER root
 RUN apt-get update -y &&\
     apt-get install -y graphviz graphviz-dev
 RUN python3 -m pip install --no-cache jupyterhub==$JUPYTERHUB_VERSION
-RUN pip install datajoint matplotlib
+RUN pip install datajoint matplotlib scipy
 
 RUN mkdir -p /src \
 	&& cd /src \
@@ -15,7 +15,7 @@ RUN mkdir -p /src \
 	&& python ./setup.py install \
 	&& jupyter nbextension enable --py widgetsnbextension
 
-ADD ./pni_workshop /home/jovyan/work
+ADD ./neuronex_dj_workshop_2018 /home/jovyan/work
 #ADD ./pni_workshop /home/jovyan/workshop
 RUN chown -R jovyan:users /home/jovyan/work
 #RUN chown -R jovyan:users /home/jovyan/workshop
