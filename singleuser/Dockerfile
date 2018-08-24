@@ -15,7 +15,8 @@ RUN mkdir -p /src \
 	&& python ./setup.py install \
 	&& jupyter nbextension enable --py widgetsnbextension
 
-ADD ./neuronex_dj_workshop_2018 /home/jovyan/work
+RUN pip install git+https://github.com/mesoscale-activity-map/map-ephys
+#ADD ./neuronex_dj_workshop_2018 /home/jovyan/work
 #ADD ./pni_workshop /home/jovyan/workshop
 RUN chown -R jovyan:users /home/jovyan/work
 #RUN chown -R jovyan:users /home/jovyan/workshop

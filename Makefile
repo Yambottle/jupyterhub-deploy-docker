@@ -59,6 +59,6 @@ notebook_image: pull singleuser/Dockerfile
 		singleuser
 
 build: check-files network volumes
-	docker-compose build
+	docker-compose build --no-cache
 
 .PHONY: network volumes check-files pull notebook_image build
