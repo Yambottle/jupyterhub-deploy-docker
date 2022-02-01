@@ -3,6 +3,7 @@
 
 # Configuration file for JupyterHub
 import os
+import sys
 
 c = get_config()
 
