@@ -31,17 +31,22 @@ c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 # it.  Most jupyter/docker-stacks *-notebook images run the Notebook server as
 # user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
 # We follow the same convention.
-notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
-shared_dir = os.environ.get('DOCKER_SHARED_DIR') or '/home/jovyan/public'
+notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work' or '/home/jovyan/private_notebooks'
+# shared_dir = os.environ.get('DOCKER_SHARED_DIR') or '/home/jovyan/public'
 c.DockerSpawner.notebook_dir = notebook_dir
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
-c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir, 'jupyterhub-shared': shared_dir }
+c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir, '/home/ubuntu/one_data': {"bind": '/home/jovyan/public_notebooks/one_data', "mode": "ro"} }
 #c.DockerSpawner.extra_create_kwargs.update({ 'volume_driver': 'local' })
 # Remove containers once they are stopped
 c.DockerSpawner.remove_containers = True
 # For debugging arguments passed to spawned containers
 c.DockerSpawner.debug = True
+# resource limits
+c.DockerSpawner.cpu_guarantee = 0.25
+c.DockerSpawner.cpu_limit = 2
+c.DockerSpawner.mem_guarantee = '512M'
+c.DockerSpawner.mem_limit = '2G'
 
 # User containers will access hub by container name on the Docker network
 c.JupyterHub.hub_ip = 'jupyterhub'
@@ -69,7 +74,7 @@ c.JupyterHub.db_url = 'postgresql://postgres:{password}@{host}/{db}'.format(
 )
 
 # Whitlelist users and admins
-c.Authenticator.whitelist = whitelist = set()
+# c.Authenticator.whitelist = whitelist = set()
 c.Authenticator.admin_users = admin = set()
 c.JupyterHub.admin_access = True
 pwd = os.path.dirname(__file__)
@@ -79,7 +84,7 @@ with open(os.path.join(pwd, 'userlist')) as f:
             continue
         parts = line.split()
         name = parts[0]
-        whitelist.add(name)
+        whitelist.add(name) if 'whitelist' in locals() else None
         if len(parts) > 1 and parts[1] == 'admin':
             admin.add(name)
 
