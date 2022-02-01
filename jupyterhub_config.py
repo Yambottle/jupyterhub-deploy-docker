@@ -89,31 +89,31 @@ with open(os.path.join(pwd, 'userlist')) as f:
         if len(parts) > 1 and parts[1] == 'admin':
             admin.add(name)
 
-# culler
-# Ref: https://github.com/jupyterhub/jupyterhub-idle-culler
-c.JupyterHub.services = [
-    {
-        "name": "jupyterhub-idle-culler-service",
-        "command": [
-            sys.executable,
-            "-m", "jupyterhub_idle_culler",
-            "--cull-every=600",
-            "--timeout=3600",
-        ],
-        "admin": True,
-    }
-]
-c.JupyterHub.load_roles = [
-    {
-        "name": "jupyterhub-idle-culler-role",
-        "scopes": [
-            "list:users",
-            "read:users:activity",
-            "read:servers",
-            "delete:servers",
-            "admin:users", # if using --cull-users
-        ],
-        # assignment of role's permissions to:
-        "services": ["jupyterhub-idle-culler-service"],
-    }
-]
+## culler
+## Ref: https://github.com/jupyterhub/jupyterhub-idle-culler
+#c.JupyterHub.services = [
+#    {
+#        "name": "jupyterhub-idle-culler-service",
+#        "command": [
+#            sys.executable,
+#            "-m", "jupyterhub_idle_culler",
+#            "--cull-every=600",
+#            "--timeout=3600",
+#        ],
+#        "admin": True,
+#    }
+#]
+#c.JupyterHub.load_roles = [
+#    {
+#        "name": "jupyterhub-idle-culler-role",
+#        "scopes": [
+#            "list:users",
+#            "read:users:activity",
+#            "read:servers",
+#            "delete:servers",
+#            "admin:users", # if using --cull-users
+#        ],
+#        # assignment of role's permissions to:
+#        "services": ["jupyterhub-idle-culler-service"],
+#    }
+#]
